@@ -1,0 +1,6 @@
+__pycache__/
+.env.local
+pyvenv.cfg
+query_logs.log
+Lib/
+Scripts/
