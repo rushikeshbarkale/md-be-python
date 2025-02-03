@@ -29,12 +29,6 @@ def get_db_connection():
         user=os.getenv('DB_USER'),
         password=os.getenv('DB_PASSWORD'),
         port=os.getenv('DB_PORT')
-        # for local machine use host="localhost" then for docker as below,
-        # host="postgres",
-        # database="supplier_dashboard",
-        # user="postgres",
-        # password="zxcvbnmq",
-        # port=5432
     )
 
 def download_nltk_data():
