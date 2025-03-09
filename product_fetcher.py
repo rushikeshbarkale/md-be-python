@@ -21,21 +21,46 @@ if env_type == 'docker':
 else:
     load_dotenv('.env.local')  # for local development environment
 
+# Check if running in production (Render)
+is_production = env_type == "render"
+
 #* Connect to PostgreSQL database
+# def get_db_connection():
+#     return psycopg2.connect(
+#         host=os.getenv('DB_HOST'),
+#         database=os.getenv('DB_NAME'),
+#         user=os.getenv('DB_USER'),
+#         password=os.getenv('DB_PASSWORD'),
+#         port=os.getenv('DB_PORT')
+#         # for local machine use host="localhost" then for docker as below,
+#         # host="postgres",
+#         # database="supplier_dashboard",
+#         # user="postgres",
+#         # password="zxcvbnmq",
+#         # port=5432
+#     )
+
 def get_db_connection():
-    return psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        port=os.getenv('DB_PORT')
-        # for local machine use host="localhost" then for docker as below,
-        # host="postgres",
-        # database="supplier_dashboard",
-        # user="postgres",
-        # password="zxcvbnmq",
-        # port=5432
-    )
+    try:
+        if is_production:
+            # Use Render's DATABASE_URL
+            connection_string = os.getenv("DATABASE_URL")
+            conn = psycopg2.connect(connection_string, sslmode="require")
+        else:
+            # Use local environment variables
+            conn = psycopg2.connect(
+                host=os.getenv("DB_HOST"),
+                database=os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD"),
+                port=os.getenv("DB_PORT")
+            )
+
+        print("✅ Database connection successful")
+        return conn
+    except Exception as e:
+        print(f"❌ Database connection failed: {e}")
+        return None
 
 def download_nltk_data():
     try:
