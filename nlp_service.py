@@ -17,11 +17,9 @@ defining it as a constant improves code and avoids errors when making changes.
 """
 MEDICAL_EQUIPMENT_KEY = "Medical Equipment"
 
+@app.route('/', methods=['GET'])
 def home():
     return jsonify({"message": "API is running!"})
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
 
 @app.route('/python', methods=['GET'])
 def test_python():
