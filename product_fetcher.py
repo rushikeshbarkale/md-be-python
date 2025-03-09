@@ -72,18 +72,32 @@ def download_nltk_data():
         else:
             ssl._create_default_https_context = _create_unverified_https_context
 
-        # Ensure the NLTK data directory is configured correctly
-        nltk_data_path = os.getenv("NLTK_DATA", "/usr/share/nltk_data")
-        if not os.path.exists(nltk_data_path):
-            os.makedirs(nltk_data_path, exist_ok=True)
+        # # Ensure the NLTK data directory is configured correctly
+        # nltk_data_path = os.getenv("NLTK_DATA", "/usr/share/nltk_data")
+        # if not os.path.exists(nltk_data_path):
+        #     os.makedirs(nltk_data_path, exist_ok=True)
+        # nltk.data.path.append(nltk_data_path)
+
+        # # Download NLTK resources
+        # nltk.download('punkt', download_dir=nltk_data_path, quiet=True)
+        # nltk.download('stopwords', download_dir=nltk_data_path, quiet=True)
+        # nltk.download('wordnet', download_dir=nltk_data_path, quiet=True)
+        # nltk.download('averaged_perceptron_tagger', download_dir=nltk_data_path, quiet=True)
+        # print("NLTK data downloaded successfully")
+    
+        nltk_data_path = "/tmp/nltk_data"
+        os.makedirs(nltk_data_path, exist_ok=True)
         nltk.data.path.append(nltk_data_path)
 
-        # Download NLTK resources
+        # ✅ Download NLTK resources to the new path
         nltk.download('punkt', download_dir=nltk_data_path, quiet=True)
         nltk.download('stopwords', download_dir=nltk_data_path, quiet=True)
         nltk.download('wordnet', download_dir=nltk_data_path, quiet=True)
         nltk.download('averaged_perceptron_tagger', download_dir=nltk_data_path, quiet=True)
-        print("NLTK data downloaded successfully")
+        
+        print("✅ NLTK data downloaded successfully")
+
+
     except Exception as e:
         print(f"Error downloading NLTK data: {str(e)}")
         raise
@@ -115,6 +129,10 @@ def fetch_medical_equipment_and_locations():
 def init_nltk_resources():
     # This will be called after download_nltk_data()
     global stop_words, lemmatizer
+    
+    nltk_data_path = "/tmp/nltk_data"
+    nltk.data.path.append(nltk_data_path) 
+    
     stop_words = set(stopwords.words('english'))
     lemmatizer = WordNetLemmatizer()
 
