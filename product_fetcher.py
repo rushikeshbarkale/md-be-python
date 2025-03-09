@@ -45,7 +45,8 @@ def get_db_connection():
         if is_production:
             # Use Render's DATABASE_URL
             connection_string = os.getenv("DATABASE_URL")
-            conn = psycopg2.connect(connection_string, sslmode="require")
+            # conn = psycopg2.connect(connection_string, sslmode="require")
+            conn = psycopg2.connect(connection_string)
         else:
             # Use local environment variables
             conn = psycopg2.connect(
